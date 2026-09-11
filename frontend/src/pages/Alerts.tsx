@@ -20,7 +20,7 @@ function timeSince(date: string) {
 
 export default function Alerts() {
   const queryClient = useQueryClient();
-  const [filter, setFilter] = useState<'All' | 'Unread' | 'Price Changes' | 'Broken Links'>('All');
+  const [filter, setFilter] = useState<'All' | 'Unread' | 'Price Changes' | 'Broken Links' | 'Page Changes'>('All');
 
   const { data: alerts, isLoading } = useQuery({
     queryKey: ['alerts', 'all'],
@@ -47,6 +47,7 @@ export default function Alerts() {
     if (filter === 'Unread') return !alert.read_at;
     if (filter === 'Price Changes') return alert.alert_type === 'price_change';
     if (filter === 'Broken Links') return alert.alert_type === 'broken_link';
+    if (filter === 'Page Changes') return alert.alert_type === 'content_change';
     return true;
   }) || [];
 
@@ -64,7 +65,7 @@ export default function Alerts() {
 
       <div className="mb-6 border-b border-gray-200">
         <nav className="-mb-px flex space-x-8" aria-label="Tabs">
-          {['All', 'Unread', 'Price Changes', 'Broken Links'].map((tab) => (
+          {['All', 'Unread', 'Price Changes', 'Broken Links', 'Page Changes'].map((tab) => (
             <button
               key={tab}
               onClick={() => setFilter(tab as any)}
@@ -91,12 +92,25 @@ export default function Alerts() {
             <li key={alert.id} className={`p-4 ${!alert.read_at ? 'bg-indigo-50' : 'bg-white'}`}>
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                      alert.alert_type === 'price_change' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                      alert.alert_type === 'price_change' 
+                        ? 'bg-green-100 text-green-800' 
+                        : alert.alert_type === 'content_change'
+                        ? 'bg-purple-100 text-purple-800'
+                        : 'bg-red-100 text-red-800'
                     }`}>
-                      {alert.alert_type === 'price_change' ? 'Price Change' : 'Broken Link'}
+                      {alert.alert_type === 'price_change' 
+                        ? 'Price Change' 
+                        : alert.alert_type === 'content_change' 
+                        ? 'Page Change' 
+                        : 'Broken Link'}
                     </span>
+                    {alert.competitor_name && (
+                      <span className="text-xs font-medium text-gray-500">
+                        [{alert.competitor_name}]
+                      </span>
+                    )}
                     {alert.product && (
                       <Link to={`/product/${alert.product.id}`} className="text-sm font-medium text-indigo-600 hover:text-indigo-900">
                         {alert.product.name}
@@ -111,6 +125,8 @@ export default function Alerts() {
                         <span>→</span>
                         <span className="font-bold">{alert.new_value}</span>
                       </span>
+                    ) : alert.alert_type === 'content_change' ? (
+                      <span>Competitor homepage change detected (hash: <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">{alert.old_value}</code> → <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">{alert.new_value}</code>)</span>
                     ) : (
                       'We could not reach the product page. The link might be broken.'
                     )}

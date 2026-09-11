@@ -20,23 +20,27 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div><h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Create an account</h2></div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
+    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md">
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600 text-xl font-bold text-white shadow-xl shadow-indigo-600/25">C</div>
+          <h2 className="text-3xl font-bold tracking-tight text-gray-900">Create your workspace</h2>
+          <p className="mt-2 text-sm text-gray-500">Start seeing competitor moves before they matter.</p>
+        </div>
+        <form className="space-y-6 rounded-2xl border border-gray-200 bg-white p-7 shadow-xl shadow-slate-200/40 dark:shadow-black/20 sm:p-8" onSubmit={handleSubmit}>
           {error && <div className="text-red-500 text-sm text-center">{error}</div>}
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
               <input type="email" required value={email} onChange={e => setEmail(e.target.value)}
-                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Email address" />
+                     className="input-field rounded-t-lg" placeholder="Email address" />
             </div>
             <div>
               <input type="password" required value={password} onChange={e => setPassword(e.target.value)}
-                     className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="Password" />
+                     className="input-field rounded-b-lg" placeholder="Password" />
             </div>
           </div>
           <div>
-            <button type="submit" className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+            <button type="submit" className="w-full rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:bg-indigo-500">
               Register
             </button>
           </div>

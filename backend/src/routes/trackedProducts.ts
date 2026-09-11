@@ -2,11 +2,18 @@ import { Router } from 'express';
 import { z } from 'zod';
 import { validate } from '../middleware/validate';
 import { addTrackedProduct, getProductHistory, triggerManualCheck, toggleProductActive } from '../services/productService';
-import { deleteProduct, getProductByIdAndUserId } from '../db/queries/trackedProducts';
+import { deleteProduct, getProductByIdAndUserId, getProductsByUserId } from '../db/queries/trackedProducts';
 import { authMiddleware, AuthRequest } from '../middleware/auth';
 
 const router = Router();
 router.use(authMiddleware);
+
+router.get('/', async (req: AuthRequest, res, next) => {
+  try {
+    const products = await getProductsByUserId(req.userId!);
+    res.json(products);
+  } catch (err) { next(err); }
+});
 
 const addSchema = z.object({
   body: z.object({

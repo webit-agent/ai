@@ -1,7 +1,58 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  @apply bg-gray-50 text-gray-900;
+:root {
+  color-scheme: light;
+  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  --app-bg: #f7f8fc;
 }
+
+:root.dark {
+  color-scheme: dark;
+  --app-bg: #080d19;
+}
+
+body {
+  @apply bg-gray-50 text-gray-900 antialiased;
+  background-color: var(--app-bg);
+  transition: background-color 180ms ease, color 180ms ease;
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Space Grotesk', 'DM Sans', sans-serif;
+}
+
+.nav-link {
+  @apply inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-slate-500 transition hover:bg-slate-100 hover:text-slate-900;
+}
+
+.dark .nav-link {
+  @apply text-slate-400 hover:bg-slate-900 hover:text-white;
+}
+
+.theme-button {
+  @apply inline-flex h-9 w-9 items-center justify-center rounded-lg text-slate-500 transition hover:bg-slate-100 hover:text-slate-900;
+}
+
+.dark .theme-button {
+  @apply text-slate-400 hover:bg-slate-900 hover:text-white;
+}
+
+.input-field {
+  @apply relative block w-full border border-gray-300 bg-white px-3 py-2.5 text-sm text-gray-900 outline-none transition placeholder:text-gray-500 focus:z-10 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20;
+}
+
+.dark .bg-white { background-color: #111827 !important; }
+.dark .bg-gray-50 { background-color: #0b1220 !important; }
+.dark .bg-gray-100 { background-color: #172033 !important; }
+.dark .border-gray-100, .dark .border-gray-200, .dark .border-gray-300 { border-color: #27344a !important; }
+.dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) { border-color: #27344a !important; }
+.dark .text-gray-900 { color: #f8fafc !important; }
+.dark .text-gray-700 { color: #cbd5e1 !important; }
+.dark .text-gray-600, .dark .text-gray-500 { color: #94a3b8 !important; }
+.dark .text-gray-400 { color: #64748b !important; }
+.dark .placeholder-gray-500::placeholder { color: #64748b; }
+.dark .shadow, .dark .shadow-sm { box-shadow: 0 18px 45px rgba(0, 0, 0, .18) !important; }

@@ -14,9 +14,9 @@ export async function runDailyDigestJob(): Promise<void> {
     const res = await pool.query(`
       SELECT a.*, p.name as product_name, p.url as product_url, c.name as competitor_name
       FROM alerts a
-      JOIN tracked_products p ON a.product_id = p.id
-      JOIN competitors c ON p.competitor_id = c.id
-      WHERE a.user_id = $1 AND a.is_read = false AND a.created_at >= NOW() - INTERVAL '24 HOURS'
+      LEFT JOIN tracked_products p ON a.tracked_product_id = p.id
+      LEFT JOIN competitors c ON p.competitor_id = c.id
+      WHERE a.user_id = $1 AND a.read_at IS NULL AND a.sent_at >= NOW() - INTERVAL '24 HOURS'
     `, [user.id]);
     
     if (res.rows.length === 0) continue;
@@ -28,7 +28,7 @@ export async function runDailyDigestJob(): Promise<void> {
       alertType: row.alert_type,
       oldValue: row.old_value,
       newValue: row.new_value,
-      sentAt: row.created_at
+      sentAt: row.sent_at
     }));
 
     const digestData: DigestData = {

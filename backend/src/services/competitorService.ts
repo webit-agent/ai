@@ -17,6 +17,17 @@ export async function getUserCompetitors(userId: string) {
   });
 }
 
+export async function getCompetitorById(id: string, userId: string) {
+  const comp = await getCompetitorByIdAndUserId(id, userId);
+  if (!comp) return null;
+  const prods = await getProductsByUserId(userId);
+  return {
+    ...comp,
+    products: prods.filter(p => p.competitor_id === comp.id)
+  };
+}
+
+
 export async function deleteCompetitor(id: string, userId: string) {
   const prods = await getProductsByUserId(userId);
   const compProds = prods.filter(p => p.competitor_id === id);

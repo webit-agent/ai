@@ -16,6 +16,6 @@ export async function getSnapshots(competitorId: string): Promise<ContentSnapsho
 
 export function getLatestScreenshotUrl(competitorId: string): string {
   // Use the base URL from the API client
-  const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+  const baseUrl = import.meta.env.VITE_API_URL || '/api';
   return `${baseUrl}/snapshots/${competitorId}/latest.png`;
 }

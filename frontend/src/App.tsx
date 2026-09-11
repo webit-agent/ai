@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { useEffect } from 'react';
 import { useAuthStore } from './store/authStore';
 
 import Login from './pages/Login';
@@ -20,7 +21,14 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
 function App() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
-  
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const isDark = storedTheme ? storedTheme === 'dark' : prefersDark;
+    document.documentElement.classList.toggle('dark', isDark);
+  }, []);
+
   return (
     <BrowserRouter>
       {isAuthenticated && <Navbar />}

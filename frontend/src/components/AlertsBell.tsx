@@ -13,7 +13,7 @@ export default function AlertsBell() {
   const count = alerts?.length || 0;
 
   return (
-    <Link to="/alerts" className="relative p-2 text-gray-400 hover:text-gray-500">
+    <Link to="/alerts" className="theme-button relative" aria-label="View alerts">
       <Bell className="h-5 w-5" />
       {count > 0 && (
         <span className="absolute top-0 right-0 block h-4 w-4 rounded-full bg-red-500 text-xs text-white text-center flex items-center justify-center">

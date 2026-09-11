@@ -28,8 +28,7 @@ export async function upsertSettings(userId: string, settings: Partial<UpsertSet
      ON CONFLICT (user_id) DO UPDATE SET
      email_alerts = EXCLUDED.email_alerts,
      telegram_alerts = EXCLUDED.telegram_alerts,
-     alert_threshold_percent = EXCLUDED.alert_threshold_percent,
-     updated_at = NOW()
+     alert_threshold_percent = EXCLUDED.alert_threshold_percent
      RETURNING *`,
     [id, userId, settings.email_alerts ?? true, settings.telegram_alerts ?? false, settings.alert_threshold_percent ?? 0]
   );

@@ -11,13 +11,28 @@ export async function createAlert(userId: string, trackedProductId: string, aler
 }
 
 export async function getAlertsByUserId(userId: string, unreadOnly: boolean = false) {
-  let query = 'SELECT * FROM alerts WHERE user_id = $1';
+  let query = `
+    SELECT 
+      a.*,
+      p.id as product_id,
+      p.name as product_name,
+      p.url as product_url,
+      c.name as competitor_name
+    FROM alerts a
+    LEFT JOIN tracked_products p ON a.tracked_product_id = p.id
+    LEFT JOIN competitors c ON p.competitor_id = c.id
+    WHERE a.user_id = $1
+  `;
   if (unreadOnly) {
-    query += ' AND read_at IS NULL';
+    query += ' AND a.read_at IS NULL';
   }
-  query += ' ORDER BY sent_at DESC';
+  query += ' ORDER BY a.sent_at DESC';
   const res = await pool.query(query, [userId]);
-  return res.rows;
+  return res.rows.map(row => ({
+    ...row,
+    product: row.product_id ? { id: row.product_id, name: row.product_name, url: row.product_url } : null,
+    competitor_name: row.competitor_name || null,
+  }));
 }
 
 export async function markAlertAsRead(id: string, userId: string) {

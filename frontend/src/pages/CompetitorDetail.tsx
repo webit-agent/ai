@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { getCompetitors } from '../api/competitors';
+import { getCompetitor } from '../api/competitors';
 import SnapshotViewer from '../components/SnapshotViewer';
 import StatusBadge from '../components/StatusBadge';
 import { ArrowLeft } from 'lucide-react';
@@ -8,16 +8,13 @@ import { ArrowLeft } from 'lucide-react';
 export default function CompetitorDetail() {
   const { id } = useParams();
   
-  // We can fetch all and find, or just fetch if there's a specific endpoint.
-  // Using getCompetitors for now
-  const { data: competitors, isLoading } = useQuery({
-    queryKey: ['competitors'],
-    queryFn: getCompetitors
+  const { data: competitor, isLoading } = useQuery({
+    queryKey: ['competitor', id],
+    queryFn: () => getCompetitor(id!),
+    enabled: !!id,
   });
 
   if (isLoading) return <div className="p-8">Loading...</div>;
-
-  const competitor = competitors?.find((c: any) => c.id === id);
 
   if (!competitor) return <div className="p-8">Competitor not found.</div>;
 

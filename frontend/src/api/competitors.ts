@@ -5,6 +5,11 @@ export const getCompetitors = async () => {
   return res.data;
 };
 
+export const getCompetitor = async (id: string) => {
+  const res = await apiClient.get(`/competitors/${id}`);
+  return res.data;
+};
+
 export const createCompetitor = async (data: any) => {
   const res = await apiClient.post('/competitors', data);
   return res.data;

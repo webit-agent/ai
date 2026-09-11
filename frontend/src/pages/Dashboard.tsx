@@ -51,14 +51,18 @@ export default function Dashboard() {
   });
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-semibold text-gray-900">Dashboard</h1>
-        <div className="flex gap-4">
+    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mb-8 flex flex-col items-start justify-between gap-5 sm:flex-row sm:items-center">
+        <div>
+          <p className="mb-1 text-sm font-semibold uppercase tracking-[0.16em] text-indigo-600">Market intelligence</p>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900">Good morning</h1>
+          <p className="mt-1 text-sm text-gray-500">Here's what changed across your tracked competitors.</p>
+        </div>
+        <div className="flex flex-wrap gap-3">
           <button 
             onClick={handleDownload}
             disabled={isDownloading}
-            className="flex items-center gap-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-50 hover:shadow disabled:opacity-50 transition-shadow"
+            className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:shadow disabled:opacity-50"
           >
             <Download className={`w-4 h-4 ${isDownloading ? 'animate-bounce' : ''}`} />
             {isDownloading ? 'Downloading...' : 'Download Weekly Report'}
@@ -66,7 +70,7 @@ export default function Dashboard() {
           <button 
             onClick={handleRefresh}
             disabled={isFetching}
-            className="flex items-center gap-2 bg-white border border-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-50 hover:shadow disabled:opacity-50 transition-shadow"
+            className="flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm transition hover:shadow disabled:opacity-50"
           >
             <RefreshCw className={`w-4 h-4 ${isFetching ? 'animate-spin' : ''}`} />
             Refresh All
@@ -78,21 +82,21 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div className="bg-white rounded-lg shadow p-6 border-l-4 border-indigo-500">
+        <div className="rounded-2xl border border-gray-200 border-l-4 border-l-indigo-500 bg-white p-6 shadow-sm">
           <div className="flex items-center gap-2 mb-1">
             <Package className="w-4 h-4 text-gray-500" />
             <p className="text-sm font-medium text-gray-500">Total Products Tracked</p>
           </div>
           <p className="text-3xl font-bold text-gray-900">{totalProducts}</p>
         </div>
-        <div className="bg-white rounded-lg shadow p-6 border-l-4 border-green-500">
+        <div className="rounded-2xl border border-gray-200 border-l-4 border-l-emerald-500 bg-white p-6 shadow-sm">
           <div className="flex items-center gap-2 mb-1">
             <TrendingDown className="w-4 h-4 text-gray-500" />
             <p className="text-sm font-medium text-gray-500">Price Changes (24h)</p>
           </div>
           <p className="text-3xl font-bold text-gray-900">{priceChanges24h}</p>
         </div>
-        <div className="bg-white rounded-lg shadow p-6 border-l-4 border-red-500">
+        <div className="rounded-2xl border border-gray-200 border-l-4 border-l-rose-500 bg-white p-6 shadow-sm">
           <div className="flex items-center gap-2 mb-1">
             <AlertTriangle className="w-4 h-4 text-gray-500" />
             <p className="text-sm font-medium text-gray-500">Broken Links</p>
@@ -115,7 +119,7 @@ export default function Dashboard() {
       ) : (
         <div className="space-y-8">
           {competitors?.map((comp: any) => (
-            <div key={comp.id} className="bg-white shadow overflow-x-auto sm:rounded-lg">
+            <div key={comp.id} className="overflow-x-auto rounded-2xl border border-gray-200 bg-white shadow-sm">
               <div className="px-4 py-5 sm:px-6 flex justify-between items-center">
                 <div>
                   <Link to={`/competitor/${comp.id}`} className="text-lg leading-6 font-medium text-indigo-600 hover:text-indigo-900">{comp.name}</Link>
